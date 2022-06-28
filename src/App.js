@@ -5,15 +5,21 @@ import MyBadge from './components/MyBadge'
 import SingleBook from './components/SingleBook'
 import BookList from './components/BookList'
 import fantasyBooks from './fantasyBooks.json'
+import {Container, Row, Col} from 'react-bootstrap'
 
-function App() {
+
+const App=()=> {
   return (
     <div className="App">
       <header className="App-header">
+        
+            <BookList books={fantasyBooks} />
+            
+        
         {/* <WarningSign text="Watch out again!" /> */}
         {/* <MyBadge text="NEW!!" color="info" /> */}
         {/* <SingleBook book={fantasyBooks[0]} /> */}
-        <BookList books={fantasyBooks} />
+        
       </header>
     </div>
   )

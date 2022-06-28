@@ -5,7 +5,7 @@ const deleteComment = async (asin) => {
         let response = await fetch('https://striveschool-api.herokuapp.com/api/comments/' + asin, {
             method: 'DELETE',
             headers: {
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGI3OWY5NTgxNmI1YjAwMTU5NDA3NDAiLCJpYXQiOjE2MjI2NDY2NzcsImV4cCI6MTYyMzg1NjI3N30.y-rBwB5WAQOWBvWrLlAgTQUrbGulxd2M6cWH3VLyGLw'
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmEzMzk4MjdmZmQ0OTAwMTU4YTdhOTkiLCJpYXQiOjE2NTY0MjE0MDEsImV4cCI6MTY1NzYzMTAwMX0.3tF4nKWr5mvRAfq0KhScHfKgQV0jE4xk7Yg1y-7XOtk'
             }
         })
         if (response.ok) {
@@ -20,7 +20,8 @@ const deleteComment = async (asin) => {
 
 const SingleComment = ({ comment }) => (
     <ListGroup.Item>
-        {comment.comment}
+        {comment.comment + " " +
+        comment.rate}
         <Button variant="danger" className="ml-2" onClick={() => deleteComment(comment._id)}>D</Button>
     </ListGroup.Item>
 )

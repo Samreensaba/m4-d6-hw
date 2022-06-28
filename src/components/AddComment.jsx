@@ -1,36 +1,41 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import { Button, Form } from 'react-bootstrap'
 
-class AddComment extends Component {
+const AddComment=({asin})=>{
 
-    state = {
-        comment: {
-            comment: '',
-            rate: 1,
-            elementId: null
-        }
-    }
+    //state = {
+    //    comment: {
+    //        comment: '',
+    //        rate: 1,
+    //        elementId: null
+    //    }
+    //}
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.asin !== this.props.asin) {
-            this.setState({
-                comment: {
-                    ...this.state.comment,
-                    elementId: this.props.asin
-                }
-            })
-        }
-    }
+    const [comment, setComment] = useState("")
+    const [rate, setRate]= useState(0)
 
-    sendComment = async (e) => {
-        e.preventDefault()
+    //componentDidUpdate(prevProps) {
+    //    if (prevProps.asin !== this.props.asin) {
+    //        this.setState({
+    //            comment: {
+    //                ...this.state.comment,
+    //                elementId: this.props.asin
+    //            }
+    //        })
+    //    }
+    //} 
+
+   
+
+    const sendComment = async (event) => {
+        event.preventDefault()
         try {
             let response = await fetch('https://striveschool-api.herokuapp.com/api/comments', {
                 method: 'POST',
-                body: JSON.stringify(this.state.comment),
+                body: JSON.stringify({comment,rate,elementId:asin}),
                 headers: {
                     'Content-type': 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGI3OWY5NTgxNmI1YjAwMTU5NDA3NDAiLCJpYXQiOjE2MjI2NDY2NzcsImV4cCI6MTYyMzg1NjI3N30.y-rBwB5WAQOWBvWrLlAgTQUrbGulxd2M6cWH3VLyGLw'
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmEzMzk4MjdmZmQ0OTAwMTU4YTdhOTkiLCJpYXQiOjE2NTY0MjE0MDEsImV4cCI6MTY1NzYzMTAwMX0.3tF4nKWr5mvRAfq0KhScHfKgQV0jE4xk7Yg1y-7XOtk'
                 }
             })
             if (response.ok) {
@@ -45,33 +50,26 @@ class AddComment extends Component {
         }
     }
 
-    render() {
+    
         return (
             <div>
-                <Form onSubmit={this.sendComment}>
+                <Form onSubmit={sendComment}>
                     <Form.Group>
                         <Form.Label>Comment text</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Add comment here"
-                            value={this.state.comment.comment}
-                            onChange={e => this.setState({
-                                comment: {
-                                    ...this.state.comment,
-                                    comment: e.target.value
-                                }
-                            })}
+                            value={comment}
+                            onChange={event => {setComment(event.target.value)}}
                         />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Rating</Form.Label>
-                        <Form.Control as="select" value={this.state.comment.rate}
-                            onChange={e => this.setState({
-                                comment: {
-                                    ...this.state.comment,
-                                    rate: e.target.value
-                                }
-                            })}>
+                        <Form.Control as="select" value={rate}
+                            onChange={event => {
+                            setRate(event.target.value)  
+                        }}
+                            >
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -86,6 +84,6 @@ class AddComment extends Component {
             </div>
         )
     }
-}
+
 
 export default AddComment
